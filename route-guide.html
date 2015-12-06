@@ -1,6 +1,7 @@
-
 <template name="mainLayout">
-  <header><h1>Kadira Blog</h1></header>
+  <header>
+    <h1>Kadira Blog</h1>
+  </header>
   <main>
     {{>Template.dynamic template=content}}
   </main>
@@ -15,8 +16,18 @@
 </template>
 
 <template name="blogPost">
-  <p>
-    <a href="/">Back</a> <br/>
-    This is a single blog post
-  </p>
+  <a href="/">Back</a>
+  <br/>
+  {{#if Template.subscriptionsReady}}
+    {{#with post}}
+      <h3>{{title}}</h3>
+      <p>
+        {{content}}
+      </p>
+    {{/with}}
+    {{else}}
+    <p>
+      Loading...
+    </p>
+  {{/if}}
 </template>
