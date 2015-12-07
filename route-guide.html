@@ -1,5 +1,7 @@
 <template name="mainLayout">
-  <header><h1>Kadira Blog</h1></header>
+  <header>
+    <h1>Kadira Blog</h1>
+  </header>
   <main>
     {{>Template.dynamic template=content}}
   </main>
@@ -8,19 +10,20 @@
 
 <template name="blogHome">
   <p>This is the home page of our blog</p>
-  <p>
-    <a href="/hello-world">See Hello World Post</a>
-  </p>
+  <ul>
+    {{#each posts}}
+    <li>
+      <a href={{pathForPost}}>{{title}}</a>
+    </li>
+    {{/each}}
+  </ul>
 </template>
 
 <template name="blogPost">
-  <a href="/">Back</a>
-  {{#if postReady}}
-    {{#with post}}
-      <h3>{{title}}</h3>
-      <p>{{content}}</p>
-    {{/with}}
-  {{else}}
-      <p>Loading...</p>
+  <a href="/">Back</a> {{#if postReady}} {{#with post}}
+  <h3>{{title}}</h3>
+  <p>{{content}}</p>
+  {{/with}} {{else}}
+  <p>Loading...</p>
   {{/if}}
 </template>
