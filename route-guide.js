@@ -68,4 +68,36 @@ if (Meteor.isClient) {
       return post;
     }
   });
+
+  Template.onlyIfLoggedIn.helpers({
+    authInProcess: function() {
+      return Meteor.loggingIn();
+    },
+    canShow: function() {
+      return !!Meteor.user();
+    }
+  });
+
+  Template.login.events({
+    'click button': function() {
+      Accounts.createUser({
+        email: Random.id(),
+        password: Random.id()
+      });
+    }
+  });
+
+  Template.mainLayout.events({
+    'click #logout': function() {
+      Meteor.logout();
+    }
+  });
+
+  Accounts.onLogin(function() {
+    var path = FlowRouter.current().path;
+    // we only do it if the user is in the login page
+    if (path === "/login") {
+      FlowRouter.go("/");
+    }
+  });
 }

@@ -2,6 +2,15 @@
   <header>
     <h1>Kadira Blog</h1>
   </header>
+  <p>Navigation:
+    <a href="/">Home</a>
+    |
+    <a href="/add-new-post">Add New Post</a>
+    {{#if currentUser}}
+      |
+      <button id="logout">Logout</button>
+    {{/if}}
+  </p>
   <main>
     {{>Template.dynamic template=content}}
   </main>
@@ -12,18 +21,52 @@
   <p>This is the home page of our blog</p>
   <ul>
     {{#each posts}}
-    <li>
-      <a href={{pathForPost}}>{{title}}</a>
-    </li>
+      <li>
+        <a href={{pathForPost}}>{{title}}</a>
+      </li>
     {{/each}}
   </ul>
 </template>
 
 <template name="blogPost">
-  <a href="/">Back</a> {{#if postReady}} {{#with post}}
-  <h3>{{title}}</h3>
-  <p>{{content}}</p>
-  {{/with}} {{else}}
-  <p>Loading...</p>
+  <a href="/">Back</a>
+  {{#if postReady}}
+    {{#with post}}
+      <h3>{{title}}</h3>
+      <p>{{content}}</p>
+    {{/with}}
+    {{else}}
+    <p>Loading...</p>
   {{/if}}
+</template>
+
+<template name="addNewPostPage">
+  {{#onlyIfLoggedIn}}
+    {{> addNewPost}}
+  {{/onlyIfLoggedIn}}
+</template>
+
+<template name="addNewPost">
+  <p>This is the area for adding a new post</p>
+</template>
+
+<template name="onlyIfLoggedIn">
+  {{#if authInProcess}}
+    <p>loading ...</p>
+    {{else}}
+    {{#if canShow}}
+      {{> UI.contentBlock }}
+      {{else}}
+      <p>You are not authorized to view this page.</p>
+      <p>Please
+        <a href="/login">login</a>
+        to view this page</p>
+    {{/if}}
+  {{/if}}
+</template>
+
+<template name="login">
+  <p>
+    <button>Login Now</button>
+  </p>
 </template>
